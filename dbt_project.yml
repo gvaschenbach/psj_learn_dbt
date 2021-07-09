@@ -34,4 +34,6 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   psj_learn_dbt:
     # Applies to all files under models/ unless specified per file
-    materialized: view
+    +materialized: view
+    marts:
+      +materialized: table

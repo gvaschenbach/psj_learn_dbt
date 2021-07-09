@@ -1,7 +1,3 @@
-{{ config( 
-  materialized="table"
-)}}
-
 with customers as (
     select
         id as customer_id,

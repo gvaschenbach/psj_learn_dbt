@@ -1,7 +1,3 @@
-{{ config( 
-  materialized="view"
-)}}
-
 with customers as (
     select
         *
@@ -18,16 +14,40 @@ orders as (
       {{ ref('stg_orders') }}
 ),
 
+paid as (
+    select
+        *
+    from
+        {{ ref('stg_payments') }}
+),
+
+order_payments as (
+  select
+    order_id,
+    sum(case when status = 'success' then amount end) as amount
+
+  from
+    paid
+
+  group by
+    order_id
+),
+
 customer_orders as (
   select
     customer_id,
 
     min(order_date) as first_order_date,
     max(order_date) as last_order_date,
-    count(order_id) as order_cnt
+    count(order_id) as order_cnt,
+    sum(amount) as lifetime_value_amt
 
   from
     orders
+
+  left join
+    order_payments
+      using(order_id)
 
   group by
     customer_id
@@ -40,7 +60,8 @@ final as (
     customers.last_name,
     customer_orders.first_order_date,
     customer_orders.last_order_date,
-    coalesce(customer_orders.order_cnt, 0) as order_cnt
+    coalesce(customer_orders.order_cnt, 0) as order_cnt,
+    customer_orders.lifetime_value_amt
 
   from
     customers
