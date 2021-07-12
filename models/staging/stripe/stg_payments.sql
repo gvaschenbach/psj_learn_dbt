@@ -6,7 +6,7 @@ with payment as (
         amount / 100 as amount
 
     from
-        psj_learn_dbt.stripe.payment
+        {{ source('stripe','payment')}}
 ) 
 
 select 

@@ -6,7 +6,7 @@ with orders as (
         status
 
     from     
-        psj_learn_dbt.jaffle_shop.orders 
+        {{ source('jaffle_shop', 'orders')}}
 )
 
 select
