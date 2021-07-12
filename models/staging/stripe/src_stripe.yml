@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: stripe
+    description: A clone of a postgres application database.
+    database: psj_learn_dbt
+    tables:
+      - name: payment
+        description: Raw payments data.
+        columns:
+          - name: id
+            description: Primary key for payments.
+            tests:
+              - unique
+              - not_null
+          - name: orderid
+          - name: payment_method
+          - name: status
+          - name: amount
+          - name: created
+          - name: _batched_at

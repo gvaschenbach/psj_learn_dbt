@@ -5,7 +5,7 @@ with customers as (
         last_name
 
     from 
-        psj_learn_dbt.jaffle_shop.customers
+        {{ source('jaffle_shop','customers') }}
 )
 
 select
