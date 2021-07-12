@@ -6,7 +6,7 @@ models:
       description: "Create customers dimension for jaffle shop"
       materialize: "table"
       columns:
-          - name: id
+          - name: customer_id
             description: "The primary key for this table"
             tests:
                 - unique
